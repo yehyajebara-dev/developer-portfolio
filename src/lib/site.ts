@@ -4,8 +4,8 @@
  */
 export const siteConfig = {
   name: "Yehya Jebara",
-  title: "Yehya Jebara — Full-Stack Developer, Laravel/PHP & IT Systems Specialist",
+  title: "Yehya Jebara — Full-Stack Software Engineer, Laravel/PHP & Systems Specialist",
   description:
-    "Full-stack developer and IT systems specialist. I build Laravel/PHP business systems — ERP, POS, AI-assisted platforms — and the infrastructure and hardware integrations they run on.",
+    "Full-stack software engineer and IT systems specialist. I build Laravel/PHP business systems — ERP, POS, AI-assisted platforms — and the infrastructure and hardware integrations they run on.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://yehyajebara.com",
 } as const;

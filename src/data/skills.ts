@@ -73,10 +73,16 @@ export const capabilities: CapabilityPillar[] = [
   },
   {
     id: "web-applications",
-    title: "Web Applications",
+    title: "Full-Stack Web Applications",
     description:
       "React and Laravel front-to-back, from authenticated dashboards to public-facing sites — responsive, accessible, and fast by default.",
     points: ["Laravel APIs + React/TypeScript UIs", "Sanctum-based authentication", "Tailwind CSS component systems"],
+  },
+  {
+    id: "hardware-integration",
+    title: "Hardware Integration",
+    description: "Where software meets physical devices — biometric terminals, NFC readers, and the APIs that bridge them.",
+    points: ["ZKTeco biometric device integration", "NFC-based identification", "Hardware ↔ web data pipelines"],
   },
   {
     id: "desktop-software",
@@ -86,10 +92,16 @@ export const capabilities: CapabilityPillar[] = [
     points: ["Local SQLite data layers", "POS and operational workflows", "Update-safe local data handling"],
   },
   {
-    id: "infrastructure-hardware",
-    title: "Infrastructure & Hardware",
+    id: "infrastructure",
+    title: "IT Infrastructure",
     description:
-      "Windows Server, VMware, and MikroTik networking — plus the hands-on hardware experience to keep multi-branch operations running.",
-    points: ["Multi-branch IT operations", "Biometric & NFC device integration", "Networking, virtualization & remote support"],
+      "Windows Server, VMware, and MikroTik networking — the hands-on infrastructure experience that keeps multi-branch operations running.",
+    points: ["Multi-branch IT operations", "Windows Server & virtualization", "Networking & remote support"],
+  },
+  {
+    id: "security-data",
+    title: "Security & Data",
+    description: "Authorization, audit trails, and schema design that hold up once a system is handling real business data.",
+    points: ["RBAC & Laravel Sanctum", "Audit logging & encrypted credentials", "MySQL / PostgreSQL / SQLite schema design"],
   },
 ];

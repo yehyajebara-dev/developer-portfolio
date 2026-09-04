@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { profile } from "@/data/profile";
@@ -15,6 +15,13 @@ export function Footer() {
         </div>
 
         <div className="flex items-center gap-4">
+          <a
+            href={`tel:${profile.phone.replace(/\s+/g, "")}`}
+            aria-label="Call Yehya Jebara"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors duration-200 hover:border-border-strong hover:text-foreground"
+          >
+            <Phone aria-hidden="true" size={18} />
+          </a>
           <a
             href={`mailto:${profile.email}`}
             aria-label="Email Yehya Jebara"

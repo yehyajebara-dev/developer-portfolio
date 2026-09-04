@@ -1,20 +1,42 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useSpring } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/ui/reveal";
 import { experience } from "@/data/experience";
+import { education, training, languages } from "@/data/profile";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 export function Experience() {
+  const timelineRef = useRef<HTMLOListElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 75%", "end 65%"],
+  });
+  const lineProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
+
   return (
     <section id="experience" className="border-t border-border py-20 sm:py-28">
       <Container>
         <SectionHeading
           eyebrow="Experience"
+          index="05"
           title="Eight years, four roles, one throughline"
           description="Overlapping dates are intentional — infrastructure work and software development have run in parallel, not in sequence."
         />
 
-        <ol className="mt-14 space-y-10 border-l border-border pl-8 sm:pl-10">
+        <ol ref={timelineRef} className="relative mt-14 space-y-10 pl-8 sm:pl-10">
+          <div aria-hidden="true" className="absolute left-0 top-0 bottom-0 w-px bg-border" />
+          <motion.div
+            aria-hidden="true"
+            className="absolute left-0 top-0 w-px origin-top bg-primary"
+            style={{ scaleY: reduced ? 1 : lineProgress, height: "100%" }}
+          />
+
           {experience.map((entry, index) => (
             <Reveal key={entry.id} delay={index * 0.05}>
               <li className="relative">
@@ -60,6 +82,48 @@ export function Experience() {
             </Reveal>
           ))}
         </ol>
+
+        <Reveal delay={0.1}>
+          <div className="mt-12 grid gap-8 rounded-2xl border border-border bg-card p-6 sm:grid-cols-3 sm:p-8">
+            <div>
+              <h3 className="font-mono-tight text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                Education
+              </h3>
+              {education.map((entry) => (
+                <div key={entry.id} className="mt-3">
+                  <p className="text-sm font-medium text-foreground">{entry.institution}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{entry.program}</p>
+                  <p className="mt-1 text-xs text-muted-foreground/80">{entry.detail}</p>
+                </div>
+              ))}
+            </div>
+
+            <div>
+              <h3 className="font-mono-tight text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                Training
+              </h3>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {training.map((item) => (
+                  <Badge key={item}>{item}</Badge>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-mono-tight text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                Languages
+              </h3>
+              <ul className="mt-3 space-y-1.5">
+                {languages.map((lang) => (
+                  <li key={lang.name} className="flex items-baseline justify-between gap-3 text-sm">
+                    <span className="text-foreground/85">{lang.name}</span>
+                    <span className="text-xs text-muted-foreground">{lang.level}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Reveal>
       </Container>
     </section>
   );
