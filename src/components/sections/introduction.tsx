@@ -4,7 +4,7 @@ import { profile } from "@/data/profile";
 
 export function Introduction() {
   return (
-    <section className="relative border-t border-border py-20 sm:py-28" aria-labelledby="introduction-heading">
+    <section id="introduction" className="relative border-t border-border py-20 sm:py-28" aria-labelledby="introduction-heading">
       <Container>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-16">
           <Reveal>

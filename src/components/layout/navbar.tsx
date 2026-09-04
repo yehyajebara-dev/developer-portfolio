@@ -1,55 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { profile } from "@/data/profile";
+import { navLinks, navSectionIds } from "@/data/sections";
+import { useActiveSection } from "@/hooks/use-active-section";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import type { NavLink } from "@/types";
-
-const links: NavLink[] = [
-  { label: "What I Build", href: "#capabilities" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
-];
+import { easeOutExpo, motionNav } from "@/lib/motion";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<string>("");
+  const activeId = useActiveSection(navSectionIds);
   const reduced = useReducedMotion();
-
-  useEffect(() => {
-    const sections = links
-      .map((link) => document.querySelector<HTMLElement>(link.href))
-      .filter((el): el is HTMLElement => Boolean(el));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActive(`#${entry.target.id}`);
-          }
-        }
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
-    );
-
-    for (const section of sections) observer.observe(section);
-
-    function onScroll() {
-      if (window.scrollY < 200) setActive("");
-    }
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-border/80 bg-background/80 backdrop-blur-md">
@@ -64,8 +28,8 @@ export function Navbar() {
         </a>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
-          {links.map((link) => {
-            const isActive = active === link.href;
+          {navLinks.map((link) => {
+            const isActive = link.href === `#${activeId}`;
             return (
               <a
                 key={link.href}
@@ -78,7 +42,7 @@ export function Navbar() {
                   <motion.span
                     layoutId="nav-indicator"
                     className="absolute inset-x-3 -bottom-[1px] h-px bg-primary"
-                    transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 35 }}
+                    transition={reduced ? { duration: 0 } : motionNav.indicator}
                   />
                 ) : null}
               </a>
@@ -114,10 +78,10 @@ export function Navbar() {
             initial={reduced ? undefined : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={reduced ? undefined : { height: 0, opacity: 0 }}
-            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.28, ease: easeOutExpo }}
           >
             <Container className="flex flex-col py-2">
-              {links.map((link, i) => (
+              {navLinks.map((link, i) => (
                 <motion.a
                   key={link.href}
                   href={link.href}

@@ -5,11 +5,12 @@ import { ArrowRight, Mail } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { AmbientGlow } from "@/components/visuals/ambient-glow";
 import { SystemMap } from "@/components/visuals/system-map";
+import { Magnetic } from "@/components/ui/magnetic";
 import { profile } from "@/data/profile";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { staggerContainer, fadeUp } from "@/lib/motion";
 
-const secondaryExpertise = ["Laravel / PHP", "React", "Business Systems", "Systems Integration", "IT Infrastructure"];
+const stack = ["Laravel", "PHP", "React", "Systems Integration"];
 
 export function Hero() {
   const reduced = useReducedMotion();
@@ -28,51 +29,62 @@ export function Hero() {
             className="font-mono-tight inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-primary"
           >
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary" />
-            {profile.heroKicker}
+            {profile.availability}
           </motion.p>
 
           <motion.h1
             variants={fadeUp}
-            className="mt-6 text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem]"
+            className="mt-6 text-balance text-5xl font-semibold uppercase leading-[0.95] tracking-tight text-foreground sm:text-6xl lg:text-7xl"
           >
-            {profile.heroHeadline}
+            {profile.name}
           </motion.h1>
 
-          <motion.p variants={fadeUp} className="mt-6 max-w-xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {profile.positioning}. Based in {profile.location} — {profile.availability.toLowerCase()}.
+          <motion.p variants={fadeUp} className="mt-4 text-lg font-medium text-foreground/90 sm:text-xl">
+            Full-Stack Software Engineer
           </motion.p>
 
-          <motion.ul variants={fadeUp} className="mt-6 flex flex-wrap gap-2">
-            {secondaryExpertise.map((skill) => (
-              <li
-                key={skill}
-                className="font-mono-tight rounded-md border border-border bg-secondary/60 px-2.5 py-1 text-xs text-foreground/80"
-              >
-                {skill}
-              </li>
-            ))}
-          </motion.ul>
+          <motion.p
+            variants={fadeUp}
+            className="font-mono-tight mt-2 text-xs uppercase tracking-[0.14em] text-signal sm:text-sm"
+          >
+            {stack.join(" • ")}
+          </motion.p>
+
+          <motion.p
+            variants={fadeUp}
+            className="mt-6 max-w-xl text-balance text-xl font-semibold leading-snug tracking-tight text-foreground sm:text-2xl"
+          >
+            {profile.heroHeadline}
+          </motion.p>
+
+          <motion.p variants={fadeUp} className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Based in {profile.location}. {profile.availability}.
+          </motion.p>
 
           <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-4">
-            <a
-              href="#projects"
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-primary/90"
-            >
-              View systems
-              <ArrowRight aria-hidden="true" size={16} />
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-5 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-border-strong hover:bg-secondary"
-            >
-              <Mail aria-hidden="true" size={16} />
-              Contact
-            </a>
+            <Magnetic>
+              <a
+                href="#projects"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-primary/90"
+              >
+                View systems
+                <ArrowRight aria-hidden="true" size={16} />
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a
+                href="#contact"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border px-5 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-border-strong hover:bg-secondary"
+              >
+                <Mail aria-hidden="true" size={16} />
+                Contact
+              </a>
+            </Magnetic>
           </motion.div>
         </motion.div>
 
         <motion.div
-          initial={reduced ? "visible" : "hidden"}
+          initial={initial}
           animate="visible"
           variants={{ hidden: { opacity: 0, scale: 0.94 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.7, delay: 0.25 } } }}
           className="mx-auto w-full max-w-md lg:max-w-none"

@@ -25,7 +25,7 @@ export function PosVisual() {
 
       <div className="p-5">
         <motion.ul
-          initial="hidden"
+          initial={reduced ? "visible" : "hidden"}
           whileInView="visible"
           viewport={viewportOnce}
           variants={{ visible: { transition: { staggerChildren: 0.15 } } }}

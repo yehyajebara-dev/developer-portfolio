@@ -41,7 +41,3 @@ export interface CapabilityPillar {
   points: string[];
 }
 
-export interface NavLink {
-  label: string;
-  href: string;
-}

@@ -9,6 +9,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { experience } from "@/data/experience";
 import { education, training, languages } from "@/data/profile";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { motionSignal, springSnappy, viewportOnce } from "@/lib/motion";
 
 export function Experience() {
   const timelineRef = useRef<HTMLOListElement>(null);
@@ -42,8 +43,25 @@ export function Experience() {
               <li className="relative">
                 <span
                   aria-hidden="true"
-                  className="absolute -left-[calc(2rem+5px)] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-background bg-primary sm:-left-[calc(2.5rem+5px)]"
-                />
+                  className="absolute -left-[calc(2rem+5px)] top-1.5 sm:-left-[calc(2.5rem+5px)]"
+                >
+                  {!reduced ? (
+                    <motion.span
+                      className="absolute inset-0 -m-1.5 rounded-full bg-primary/50"
+                      initial={{ opacity: 0.7, scale: 0.4 }}
+                      whileInView={{ opacity: 0, scale: 1.8 }}
+                      viewport={viewportOnce}
+                      transition={{ duration: motionSignal.pulse.duration, ease: motionSignal.pulse.ease }}
+                    />
+                  ) : null}
+                  <motion.span
+                    className="relative block h-2.5 w-2.5 rounded-full border-2 border-background bg-primary"
+                    initial={reduced ? undefined : { scale: 0.3 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={viewportOnce}
+                    transition={springSnappy}
+                  />
+                </span>
 
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <h3 className="text-lg font-semibold text-foreground">{entry.role}</h3>

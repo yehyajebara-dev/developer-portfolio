@@ -45,7 +45,7 @@ export function ErpVisual() {
 
       <motion.div
         className="mt-4 grid grid-cols-7 gap-1.5"
-        initial="hidden"
+        initial={reduced ? "visible" : "hidden"}
         whileInView="visible"
         viewport={viewportOnce}
         variants={{ visible: { transition: { staggerChildren: 0.02 } } }}

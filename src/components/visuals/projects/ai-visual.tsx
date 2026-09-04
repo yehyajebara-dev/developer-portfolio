@@ -17,7 +17,7 @@ export function AiVisual() {
 
       <motion.div
         className="mt-4 space-y-2.5"
-        initial="hidden"
+        initial={reduced ? "visible" : "hidden"}
         whileInView="visible"
         viewport={viewportOnce}
         variants={{ visible: { transition: { staggerChildren: 0.18 } } }}

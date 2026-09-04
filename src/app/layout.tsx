@@ -3,6 +3,7 @@ import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { ScrollRail } from "@/components/layout/scroll-rail";
 import { profile } from "@/data/profile";
 import { siteConfig } from "@/lib/site";
 
@@ -104,6 +105,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <Navbar />
+        <ScrollRail />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
