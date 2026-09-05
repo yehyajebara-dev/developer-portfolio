@@ -34,8 +34,17 @@ export interface Project {
   featured: boolean;
 }
 
+/** The six capability pillars. Each id also selects that pillar's glyph and grid span. */
+export type CapabilityId =
+  | "business-systems"
+  | "web-applications"
+  | "hardware-integration"
+  | "desktop-software"
+  | "infrastructure"
+  | "security-data";
+
 export interface CapabilityPillar {
-  id: string;
+  id: CapabilityId;
   title: string;
   description: string;
   points: string[];

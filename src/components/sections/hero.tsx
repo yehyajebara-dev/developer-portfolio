@@ -1,10 +1,11 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, type Variants } from "motion/react";
 import { ArrowRight, Mail } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { AmbientGlow } from "@/components/visuals/ambient-glow";
-import { SystemMap } from "@/components/visuals/system-map";
+import { WorkstationScene } from "@/components/visuals/workstation-scene";
 import { Magnetic } from "@/components/ui/magnetic";
 import { profile } from "@/data/profile";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
@@ -12,12 +13,26 @@ import { staggerContainer, fadeUp } from "@/lib/motion";
 
 const stack = ["Laravel", "PHP", "React", "Systems Integration"];
 
+/** The workstation settles in slightly after the copy, as its own beat. */
+const sceneEntrance: Variants = {
+  hidden: { opacity: 0, scale: 0.94 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.7, delay: 0.25 } },
+};
+
 export function Hero() {
   const reduced = useReducedMotion();
   const initial = reduced ? "visible" : "hidden";
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // As the hero scrolls out of view, the workstation recedes rather than
+  // just disappearing — a visual handoff cue into what follows.
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+  const sceneScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const sceneOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0]);
+  const sceneY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-24 sm:pt-40 sm:pb-32">
+    <section ref={sectionRef} id="top" className="relative overflow-hidden pt-32 pb-24 sm:pt-40 sm:pb-32">
       <div className="bg-grid bg-noise pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)]" />
       <AmbientGlow className="right-[-120px] top-[-80px]" color="var(--color-primary)" size={520} />
       <AmbientGlow className="left-[-160px] top-[220px]" color="var(--color-signal)" size={420} />
@@ -86,10 +101,11 @@ export function Hero() {
         <motion.div
           initial={initial}
           animate="visible"
-          variants={{ hidden: { opacity: 0, scale: 0.94 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.7, delay: 0.25 } } }}
+          variants={sceneEntrance}
+          style={reduced ? undefined : { scale: sceneScale, opacity: sceneOpacity, y: sceneY }}
           className="mx-auto w-full max-w-md lg:max-w-none"
         >
-          <SystemMap />
+          <WorkstationScene />
         </motion.div>
       </Container>
     </section>

@@ -1,24 +1,16 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Building2, Globe, Cpu, MonitorSmartphone, Network, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
+import { CapabilityGlyph } from "@/components/visuals/capability-glyph";
 import { capabilities } from "@/data/skills";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
+import type { CapabilityId } from "@/types";
 
-const icons = {
-  "business-systems": Building2,
-  "web-applications": Globe,
-  "hardware-integration": Cpu,
-  "desktop-software": MonitorSmartphone,
-  infrastructure: Network,
-  "security-data": ShieldCheck,
-} as const;
-
-const spans: Record<string, string> = {
+const spans: Record<CapabilityId, string> = {
   "business-systems": "lg:col-span-2 lg:row-span-2",
   "web-applications": "lg:col-span-2",
   "hardware-integration": "lg:col-span-1",
@@ -58,7 +50,6 @@ export function Capabilities() {
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-flow-dense lg:grid-cols-4">
           {capabilities.map((capability, index) => {
-            const Icon = icons[capability.id as keyof typeof icons];
             const isFeature = capability.id === "business-systems";
             return (
               <Reveal key={capability.id} delay={index * 0.05} className={spans[capability.id]}>
@@ -69,7 +60,7 @@ export function Capabilities() {
                   )}
                 >
                   <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-secondary text-primary">
-                    <Icon aria-hidden="true" size={20} />
+                    <CapabilityGlyph id={capability.id} />
                   </div>
                   <h3 className={cn("mt-5 font-semibold text-foreground", isFeature ? "text-xl" : "text-lg")}>
                     {capability.title}
