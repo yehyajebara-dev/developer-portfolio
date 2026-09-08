@@ -87,7 +87,7 @@ export function Philosophy() {
   return (
     <section id="how-i-work" className="border-t border-border py-20 sm:py-28">
       <Container>
-        <SectionHeading eyebrow="How I Work" index="06" title="Build. Solve. Grow." align="center" className="mx-auto" />
+        <SectionHeading eyebrow="How I Work" index="07" title="Build. Solve. Grow." align="center" className="mx-auto" />
         {reduced ? <StaticPhilosophy /> : <ScrollPhilosophy />}
       </Container>
     </section>

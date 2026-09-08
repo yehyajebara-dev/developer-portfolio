@@ -33,7 +33,7 @@ export function Skills() {
       <Container>
         <SectionHeading
           eyebrow="Engineering Stack"
-          index="04"
+          index="05"
           title="Organized by what it's for, not a wall of logos"
           description="Grouped the way the work actually breaks down — from business logic to the hardware it eventually touches."
         />

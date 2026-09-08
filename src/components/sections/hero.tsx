@@ -24,12 +24,11 @@ export function Hero() {
   const initial = reduced ? "visible" : "hidden";
   const sectionRef = useRef<HTMLElement>(null);
 
-  // As the hero scrolls out of view, the workstation recedes rather than
-  // just disappearing — a visual handoff cue into what follows.
+  // Gentle recede as the hero leaves — the "Inside the System" section right
+  // below owns the big workstation-to-monitor handoff, so this stays subtle.
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
-  const sceneScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
-  const sceneOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0]);
-  const sceneY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const sceneOpacity = useTransform(scrollYProgress, [0, 0.9, 1], [1, 1, 0]);
+  const sceneY = useTransform(scrollYProgress, [0, 1], [0, -24]);
 
   return (
     <section ref={sectionRef} id="top" className="relative overflow-hidden pt-32 pb-24 sm:pt-40 sm:pb-32">
@@ -102,7 +101,7 @@ export function Hero() {
           initial={initial}
           animate="visible"
           variants={sceneEntrance}
-          style={reduced ? undefined : { scale: sceneScale, opacity: sceneOpacity, y: sceneY }}
+          style={reduced ? undefined : { opacity: sceneOpacity, y: sceneY }}
           className="mx-auto w-full max-w-md lg:max-w-none"
         >
           <WorkstationScene />

@@ -29,9 +29,15 @@ export function ScrollRail() {
       aria-hidden="true"
       className="pointer-events-none fixed right-6 top-1/2 z-40 hidden -translate-y-1/2 lg:block"
     >
-      <div className="relative h-64 w-px bg-border">
+      <div className="relative h-64 w-[3px] rounded-full bg-border">
+        {/* Filled track from the top down to the active marker, so the dot reads as the
+            tip of one continuous element instead of a bright dot floating beside a faint line. */}
         <motion.div
-          className="absolute left-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_8px_var(--color-primary)]"
+          className="absolute inset-x-0 top-0 origin-top rounded-full bg-primary/40"
+          style={{ height: reduced ? `${railOffset(activeIndex)}%` : smoothTop }}
+        />
+        <motion.div
+          className="absolute left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_0_3px_var(--color-background),0_0_10px_1px_var(--color-primary)]"
           style={{ top: reduced ? `${railOffset(activeIndex)}%` : smoothTop }}
         />
 

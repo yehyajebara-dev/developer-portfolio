@@ -85,7 +85,19 @@ export function Navbar() {
                 <motion.a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => {
+                    // The menu's own collapse animation (height/overflow) starting in this
+                    // same tick can race the browser's native same-page anchor scroll and
+                    // cancel it out entirely (reproducible on mobile viewports). Close the
+                    // menu, then explicitly scroll to the target next frame instead of
+                    // relying on the native jump.
+                    e.preventDefault();
+                    setOpen(false);
+                    requestAnimationFrame(() => {
+                      document.querySelector(link.href)?.scrollIntoView();
+                      history.pushState(null, "", link.href);
+                    });
+                  }}
                   initial={reduced ? undefined : { opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.25, delay: i * 0.04 }}

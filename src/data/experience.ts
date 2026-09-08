@@ -22,7 +22,7 @@ export const experience: ExperienceEntry[] = [
     id: "talkstech",
     organization: "TalksTech",
     role: "Software Development Intern",
-    start: "2024",
+    start: "2026",
     end: "Present",
     current: true,
     summary:

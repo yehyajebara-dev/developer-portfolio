@@ -11,7 +11,7 @@ export function Contact() {
     <section id="contact" className="border-t border-border py-20 sm:py-28">
       <Container>
         <p className="font-mono-tight flex items-center justify-center gap-2 text-center text-xs font-medium uppercase tracking-[0.2em] text-primary">
-          <span className="text-muted-foreground/70">07</span>
+          <span className="text-muted-foreground/70">08</span>
           Contact
         </p>
 

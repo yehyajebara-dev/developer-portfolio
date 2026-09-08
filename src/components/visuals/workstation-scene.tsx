@@ -68,6 +68,17 @@ const SCREEN_STATES: ScreenState[] = [
 
 const SCREEN_INTERVAL = 3400;
 
+/** One-time boot sequence played before the terminal settles into its rotating states. */
+const BOOT_LINES = [
+  "booting yehya.dev",
+  "loading full-stack systems",
+  "connecting laravel backend",
+  "mounting react interface",
+  "linking devices and infrastructure",
+  "status: ready",
+];
+const BOOT_LINE_INTERVAL = 420;
+
 /** Pointer travel (px from centre) mapped onto the scene's tilt range. */
 const POINTER_RANGE = [-60, 60];
 const TILT_SPRING = { stiffness: 120, damping: 22 };
@@ -79,17 +90,50 @@ const toneClass: Record<NonNullable<ScreenState["lines"][number]["tone"]>, strin
   success: "text-success",
 };
 
+function BootScreen({ onComplete }: { onComplete: () => void }) {
+  const [lineCount, setLineCount] = useState(1);
+
+  useEffect(() => {
+    if (lineCount >= BOOT_LINES.length) {
+      const timeout = setTimeout(onComplete, 500);
+      return () => clearTimeout(timeout);
+    }
+    const id = setTimeout(() => setLineCount((n) => n + 1), BOOT_LINE_INTERVAL);
+    return () => clearTimeout(id);
+  }, [lineCount, onComplete]);
+
+  return (
+    <div className="flex h-full flex-col justify-center gap-1.5 p-3">
+      {BOOT_LINES.slice(0, lineCount).map((line, i) => (
+        <motion.p
+          key={line}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+          className={`font-mono-tight text-[8.5px] leading-relaxed sm:text-[10px] ${
+            i === lineCount - 1 && line === "status: ready" ? "text-success" : "text-muted-foreground/70"
+          }`}
+        >
+          <span className="text-signal">{"> "}</span>
+          {line}
+        </motion.p>
+      ))}
+    </div>
+  );
+}
+
 function TerminalScreen({ reduced, inView }: { reduced: boolean; inView: boolean }) {
   const [index, setIndex] = useState(0);
+  const [booted, setBooted] = useState(reduced);
 
   // Reduced-motion users hold on the first state, so no timer is started at all.
   // Scrolled-off-screen visitors don't get a silent React re-render loop either —
   // the interval only runs while the hero is actually in view.
   useEffect(() => {
-    if (reduced || !inView) return;
+    if (reduced || !inView || !booted) return;
     const id = setInterval(() => setIndex((i) => (i + 1) % SCREEN_STATES.length), SCREEN_INTERVAL);
     return () => clearInterval(id);
-  }, [reduced, inView]);
+  }, [reduced, inView, booted]);
 
   const state = SCREEN_STATES[reduced ? 0 : index];
 
@@ -101,26 +145,34 @@ function TerminalScreen({ reduced, inView }: { reduced: boolean; inView: boolean
             <span key={dot} className="h-1.5 w-1.5 rounded-full bg-white/20" />
           ))}
         </div>
-        <span className="font-mono-tight truncate pl-3 text-[8px] text-white/40 sm:text-[9px]">{state.kicker}</span>
+        {booted ? (
+          <span className="font-mono-tight truncate pl-3 text-[8px] text-white/40 sm:text-[9px]">{state.kicker}</span>
+        ) : (
+          <span className="font-mono-tight truncate pl-3 text-[8px] text-white/40 sm:text-[9px]">booting…</span>
+        )}
       </div>
-      <div className="p-3">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={state.id}
-            initial={reduced ? undefined : { opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduced ? undefined : { opacity: 0, y: -4 }}
-            transition={{ duration: 0.4, ease: easeOutExpo }}
-            className="space-y-1.5"
-          >
-            {state.lines.map((line, i) => (
-              <p key={i} className={`font-mono-tight text-[8.5px] leading-relaxed sm:text-[10px] ${toneClass[line.tone ?? "muted"]}`}>
-                {line.text}
-              </p>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-      </div>
+      {!booted ? (
+        <BootScreen onComplete={() => setBooted(true)} />
+      ) : (
+        <div className="p-3">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={state.id}
+              initial={reduced ? undefined : { opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduced ? undefined : { opacity: 0, y: -4 }}
+              transition={{ duration: 0.4, ease: easeOutExpo }}
+              className="space-y-1.5"
+            >
+              {state.lines.map((line, i) => (
+                <p key={i} className={`font-mono-tight text-[8.5px] leading-relaxed sm:text-[10px] ${toneClass[line.tone ?? "muted"]}`}>
+                  {line.text}
+                </p>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      )}
       {/* screen sheen */}
       <div
         aria-hidden="true"

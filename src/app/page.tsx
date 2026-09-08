@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/hero";
+import { SystemJourney } from "@/components/visuals/system-journey";
 import { Introduction } from "@/components/sections/introduction";
 import { Capabilities } from "@/components/sections/capabilities";
 import { Projects } from "@/components/sections/projects";
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <SystemJourney />
       <Introduction />
       <Capabilities />
       <Projects />

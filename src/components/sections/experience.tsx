@@ -25,7 +25,7 @@ export function Experience() {
       <Container>
         <SectionHeading
           eyebrow="Experience"
-          index="05"
+          index="06"
           title="Eight years, four roles, one throughline"
           description="Overlapping dates are intentional — infrastructure work and software development have run in parallel, not in sequence."
         />

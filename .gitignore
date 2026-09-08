@@ -12,6 +12,10 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
+/.scratch/
+.scratch-check.mjs
 
 # next.js
 /.next/

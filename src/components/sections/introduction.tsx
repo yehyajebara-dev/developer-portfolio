@@ -9,7 +9,7 @@ export function Introduction() {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-16">
           <Reveal>
             <p className="font-mono-tight flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary">
-              <span className="text-muted-foreground/70">01</span>
+              <span className="text-muted-foreground/70">02</span>
               Who I Am
             </p>
             <h2

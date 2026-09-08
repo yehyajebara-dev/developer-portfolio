@@ -32,7 +32,7 @@ export function Projects() {
       <Container>
         <SectionHeading
           eyebrow="Selected Systems"
-          index="03"
+          index="04"
           title="Systems built for how the business actually works"
           description="Each of these started as a real operational problem, not a tutorial. No fabricated metrics — just the problem, the engineering, and what it does."
         />
